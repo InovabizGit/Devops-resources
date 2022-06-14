@@ -3,6 +3,7 @@ parameters:
     type: string
   - name: BuildFolder
     type: string
+    default: ''
 steps:
   - task: ArchiveFiles@2
     displayName: 'Archive files'
