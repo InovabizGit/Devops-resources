@@ -1,0 +1,27 @@
+parameters:
+  - name: EnvironmentName
+    type: string
+  - name: AzureServiceConnectionName
+    type: string
+  - name: AzureAppServicesName
+    type: string
+  - name: ArtifactFolderName
+    type: string
+jobs:
+  - deployment: Deploy
+    displayName: Deploy
+    environment: ${{parameters.EnvironmentName}}
+    pool:
+      vmImage: 'ubuntu-latest'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureWebApp@1
+            displayName: 'Azure Functions App Deploy'
+            inputs:
+              azureSubscription: ${{parameters.AzureServiceConnectionName}}
+              appType: webAppLinux
+              appName: ${{parameters.AzureAppServicesName}} 
+              WebAppName: ${{parameters.AzureAppServicesName}} 
+              package: '$(Pipeline.Workspace)/${{parameters.ArtifactFolderName}}/$(Build.BuildId).zip'
