@@ -26,7 +26,7 @@ steps:
         npm run test --if-present
     displayName: 'Prepare binaries'
 
-  - template: /helpers/create-modify-paas.yml.yml
+  - template: /helpers/create-modify-paas.yml
     parameters:
       EnvironmentVariablesGroupName: ${{parameters.EnvironmentVariablesGroupName}}
       AzureUser: ${{parameters.AzureUser}}
