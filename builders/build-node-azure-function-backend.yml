@@ -20,6 +20,7 @@ steps:
   - template: /helpers/install-dotnet-azure-extensions.yml
    
   - script: |
+        ls -la
         npm install
         npm run build --if-present
         npm run test --if-present
