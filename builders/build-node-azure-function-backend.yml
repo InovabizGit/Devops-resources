@@ -26,15 +26,9 @@ steps:
         npm run test --if-present
     displayName: 'Prepare binaries'
 
-  - template: /helpers/create-local-settings.yml
+  - template: /helpers/create-modify-paas.yml.yml
     parameters:
       EnvironmentVariablesGroupName: ${{parameters.EnvironmentVariablesGroupName}}
       AzureUser: ${{parameters.AzureUser}}
       AzureDevopsPersonalToken: ${{parameters.AzureDevopsPersonalToken}}
-      ProjectUrl: ${{parameters.ProjectUrl}}
-
-  - script: |
-        npm install -g typescript
-        npm install -g ts-node
-        npx ts-node ${{parameters.SetupFilePath}}
-    displayName: 'Create PaaS'    
+      ProjectUrl: ${{parameters.ProjectUrl}}  
