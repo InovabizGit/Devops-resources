@@ -6,6 +6,8 @@ parameters:
   - name: AzureDevopsPersonalToken
     type: string
   - name: ProjectUrl
+    type: string 
+  - name: SetupFilePath
     type: string  
 steps:
   - task: PythonScript@0
