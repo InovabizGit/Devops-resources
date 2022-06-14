@@ -25,7 +25,7 @@ steps:
         npm run test --if-present
     displayName: 'Prepare binaries'
 
-  - template: /helpers/python-create-local-settings.yml
+  - template: /helpers/create-local-settings.yml
     parameters:
       EnvironmentVariablesGroupName: ${{parameters.EnvironmentVariablesGroupName}}
       AzureUser: ${{parameters.AzureUser}}
