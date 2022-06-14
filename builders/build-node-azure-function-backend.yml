@@ -17,7 +17,7 @@ steps:
       versionSpec: ${{ parameters.NodeVersion }}
     displayName: 'Install Node.js'
 
-  - template: helpers/install-dotnet-azure-extensions.yml
+  - template: ./helpers/install-dotnet-azure-extensions.yml
    
   - script: |
         npm install
@@ -25,7 +25,7 @@ steps:
         npm run test --if-present
     displayName: 'Prepare binaries'
 
-  - template: helpers/python-create-local-settings.yml
+  - template: ./helpers/python-create-local-settings.yml
     parameters:
       EnvironmentVariablesGroupName: ${{parameters.EnvironmentVariablesGroupName}}
       AzureUser: ${{parameters.AzureUser}}
