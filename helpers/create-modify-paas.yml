@@ -42,4 +42,4 @@ steps:
         npm install -g ts-node
         npx ts-node ${{parameters.SetupFilePath}}
         rm local.settings.json
-  displayName: 'Create PaaS'
+    displayName: 'Create PaaS'
