@@ -1,7 +1,7 @@
 parameters:
   - name: EnvironmentName
     type: string
-  - name: AzureSubscriptionGuid
+  - name: AzureServiceConnectionName
     type: string
   - name: AzureFunctionName
     type: string
@@ -22,7 +22,7 @@ jobs:
           - task: AzureFunctionApp@1
             displayName: 'Azure Functions App Deploy'
             inputs:
-              azureSubscription: 'Azure service connection'
+              azureSubscription: ${{parameters.AzureServiceConnectionName}}
               appType: functionApp
               deployToSlotOrASE: false
               appName: ${{parameters.AzureFunctionName}} 
