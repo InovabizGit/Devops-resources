@@ -1,11 +1,13 @@
 parameters:
   - name: ArtifactFolderName
     type: string
+  - name: BuildFolder
+    type: string
 steps:
   - task: ArchiveFiles@2
     displayName: 'Archive files'
     inputs:
-      rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+      rootFolderOrFile: '$(System.DefaultWorkingDirectory)/${{parameters.BuildFolder}}'
       includeRootFolder: false
       archiveType: zip
       archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
