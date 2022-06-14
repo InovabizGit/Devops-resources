@@ -32,3 +32,4 @@ steps:
       AzureUser: ${{parameters.AzureUser}}
       AzureDevopsPersonalToken: ${{parameters.AzureDevopsPersonalToken}}
       ProjectUrl: ${{parameters.ProjectUrl}}  
+      SetupFilePath: ${{parameters.SetupFilePath}}  
