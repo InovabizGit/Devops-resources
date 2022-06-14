@@ -14,7 +14,7 @@ parameters:
 steps:
   - task: NodeTool@0
       inputs:
-        versionSpec: $(parameters.NodeVersion)
+        versionSpec: ${{ parameters.image }}
       displayName: 'Install Node.js'
 
   - template: helpers/install-dotnet-azure-extensions.yml
