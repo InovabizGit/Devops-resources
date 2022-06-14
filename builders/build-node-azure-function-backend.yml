@@ -1,0 +1,39 @@
+parameters:
+  - name: EnvironmentVariablesGroupName
+    type: string
+  - name: AzureUser
+    type: string
+  - name: AzureDevopsPersonalToken
+    type: string
+  - name: ProjectUrl
+    type: string  
+  - name: SetupFilePath
+    type: string  
+  - name: NodeVersion
+    type: string    
+steps:
+  - task: NodeTool@0
+      inputs:
+        versionSpec: ${{parameters.NodeVersion}}
+      displayName: 'Install Node.js'
+      
+  - template: helpers/install-dotnet-azure-extensions.yml
+   
+  - script: |
+        npm install
+        npm run build --if-present
+        npm run test --if-present
+    displayName: 'Prepare binaries'
+
+  - template: helpers/python-create-local-settings.yml
+    parameters:
+      EnvironmentVariablesGroupName: ${{parameters.EnvironmentVariablesGroupName}}
+      AzureUser: ${{parameters.AzureUser}}
+      AzureDevopsPersonalToken: ${{parameters.AzureDevopsPersonalToken}}
+      ProjectUrl: ${{parameters.ProjectUrl}}
+
+  - script: |
+        npm install -g typescript
+        npm install -g ts-node
+        npx ts-node ${{parameters.SetupFilePath}}
+    displayName: 'Create PaaS'    

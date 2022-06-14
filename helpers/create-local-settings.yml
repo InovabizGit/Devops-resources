@@ -1,0 +1,38 @@
+parameters:
+  - name: EnvironmentVariablesGroupName
+    type: string
+  - name: AzureUser
+    type: string
+  - name: AzureDevopsPersonalToken
+    type: string
+  - name: ProjectUrl
+    type: string  
+steps:
+  - task: PythonScript@0
+    inputs:
+      scriptSource: 'inline'
+      script: |
+        import requests
+        import base64
+        headers={'Authorization': 'Basic ' + base64.b64encode(bytes('${{parameters.AzureUser}}:${{parameters.AzureDevopsPersonalToken}}', 'utf-8')).decode('ascii')}
+        url = '${{parameters.ProjectUrl}}/_apis/distributedtask/variablegroups?groupName=${{parameters.EnvironmentVariablesGroupName}}&api-version=6.0-preview.2'
+        result = requests.get(url,headers=headers)
+
+        env = result.json()['value'][0]['variables']
+
+        hs = open("local.settings.json","a")
+        hs.write('{ \n  "IsEncrypted": false,\n  "Values": {\n')
+
+      
+        largo = len(env) 
+        index = 0 
+
+        for key in env:
+          if(index < (largo-1)):
+              hs.write('"'+key+'":"'+env[key]['value'] + '",\n')
+          else:
+              hs.write('"'+key+'":"'+env[key]['value'] + '"\n')
+          index+=1
+        
+        hs.write('}\n}')
+    displayName: 'Generate local.settings.json file'
