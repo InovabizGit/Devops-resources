@@ -7,16 +7,16 @@ parameters:
     type: string
   - name: SonarCloudProjectName
     type: string 
-
-- task: SonarCloudPrepare@1
-  inputs:
-    SonarCloud: '${{SonarCloudServiceConnection}}'
-    organization: '${{SonarCloudOrganizationName}}'
-    scannerMode: 'CLI'
-    configMode: 'manual'
-    cliProjectKey: '${{SonarCloudProjectKey}}'
-    cliProjectName: '${{SonarCloudProjectName}}'
-    cliProjectVersion: '$(Build.BuildNumber)'
-    cliSources: '.'
-- task: SonarCloudAnalyze@1
-  displayName: 'Run sonar cloud' 
+steps:
+  - task: SonarCloudPrepare@1
+    inputs:
+      SonarCloud: '${{SonarCloudServiceConnection}}'
+      organization: '${{SonarCloudOrganizationName}}'
+      scannerMode: 'CLI'
+      configMode: 'manual'
+      cliProjectKey: '${{SonarCloudProjectKey}}'
+      cliProjectName: '${{SonarCloudProjectName}}'
+      cliProjectVersion: '$(Build.BuildNumber)'
+      cliSources: '.'
+  - task: SonarCloudAnalyze@1
+    displayName: 'Run sonar cloud' 
