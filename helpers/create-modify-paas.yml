@@ -6,6 +6,8 @@ parameters:
   - name: AzureDevopsPersonalToken
     type: string
   - name: ProjectUrl
+    type: string 
+  - name: SetupFilePath
     type: string  
 steps:
   - task: PythonScript@0
@@ -36,3 +38,10 @@ steps:
         
         hs.write('}\n}')
     displayName: 'Generate local.settings.json file'
+
+  - script: |
+        npm install -g typescript
+        npm install -g ts-node
+        npx ts-node ${{parameters.SetupFilePath}}
+        rm local.settings.json
+    displayName: 'Create PaaS'
