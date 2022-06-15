@@ -1,0 +1,22 @@
+parameters:
+  - name: SonarCloudServiceConnection
+    type: string
+  - name: SonarCloudOrganizationName
+    type: string
+  - name: SonarCloudProjectKey
+    type: string
+  - name: SonarCloudProjectName
+    type: string 
+steps:
+  - task: SonarCloudPrepare@1
+    inputs:
+      SonarCloud: '${{parameters.SonarCloudServiceConnection}}'
+      organization: '${{parameters.SonarCloudOrganizationName}}'
+      scannerMode: 'CLI'
+      configMode: 'manual'
+      cliProjectKey: '${{parameters.SonarCloudProjectKey}}'
+      cliProjectName: '${{parameters.SonarCloudProjectName}}'
+      cliProjectVersion: '$(Build.BuildNumber)'
+      cliSources: '.'
+  - task: SonarCloudAnalyze@1
+    displayName: 'Run sonar cloud' 
