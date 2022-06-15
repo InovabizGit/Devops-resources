@@ -10,12 +10,12 @@ parameters:
 steps:
   - task: SonarCloudPrepare@1
     inputs:
-      SonarCloud: '${{SonarCloudServiceConnection}}'
-      organization: '${{SonarCloudOrganizationName}}'
+      SonarCloud: '${{parameters.SonarCloudServiceConnection}}'
+      organization: '${{parameters.SonarCloudOrganizationName}}'
       scannerMode: 'CLI'
       configMode: 'manual'
-      cliProjectKey: '${{SonarCloudProjectKey}}'
-      cliProjectName: '${{SonarCloudProjectName}}'
+      cliProjectKey: '${{parameters.SonarCloudProjectKey}}'
+      cliProjectName: '${{parameters.SonarCloudProjectName}}'
       cliProjectVersion: '$(Build.BuildNumber)'
       cliSources: '.'
   - task: SonarCloudAnalyze@1
