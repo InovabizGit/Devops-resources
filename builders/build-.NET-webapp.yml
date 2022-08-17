@@ -1,0 +1,44 @@
+parameters:
+  - name: Solution
+    type: string
+  - name: BuildPlatform
+    type: string
+  - name: BuildConfiguration
+    type: string
+  - name: DeployOnBuild
+    type: string
+  - name: WebPublishMethod
+    type: string
+  - name: PackageAsSingleFile
+    type: string
+  - name: SkipInvalidConfigurations
+    type: string
+  - name: PackageLocation
+    type: string
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: ${{ parameters.NodeVersion }}
+    displayName: 'Install Node.js'
+
+  - script: |
+       npm install -g @angular/cli@${{ parameters.AngularVersion }}
+         npm install
+         ng build --configuration=${{ parameters.EnvironmentConfig }}
+    displayName: 'Prepare binaries'
+
+
+    - task: NuGetToolInstaller@1
+      displayName: 'Install Nuget'
+    - task: NuGetCommand@2
+      inputs:
+        restoreSolution: ${{parameters.Solution}}
+      displayName: 'Get Nugget Packages'
+
+    - task: VSBuild@1
+      inputs:
+        solution: ${{parameters.Solution}}
+        msbuildArgs: '/p:DeployOnBuild=${{parameters.DeployOnBuild}} /p:WebPublishMethod=${{parameters.WebPublishMethod}} /p:PackageAsSingleFile=${{parameters.PackageAsSingleFile}} /p:SkipInvalidConfigurations=${{parameters.SkipInvalidConfigurations}} /p:PackageLocation="${{parameters.PackageLocation}}"'
+        platform: '${{parameters.BuildPlatform}}'
+        configuration: '${{parameters.BuildConfiguration}}'
+      display: 'Build solution'
