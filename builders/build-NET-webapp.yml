@@ -16,29 +16,17 @@ parameters:
   - name: PackageLocation
     type: string
 steps:
-  - task: NodeTool@0
+  - task: NuGetToolInstaller@1
+    displayName: 'Install Nuget'
+  - task: NuGetCommand@2
     inputs:
-      versionSpec: ${{ parameters.NodeVersion }}
-    displayName: 'Install Node.js'
+      restoreSolution: ${{parameters.Solution}}
+    displayName: 'Get Nugget Packages'
 
-  - script: |
-       npm install -g @angular/cli@${{ parameters.AngularVersion }}
-         npm install
-         ng build --configuration=${{ parameters.EnvironmentConfig }}
-    displayName: 'Prepare binaries'
-
-
-    - task: NuGetToolInstaller@1
-      displayName: 'Install Nuget'
-    - task: NuGetCommand@2
-      inputs:
-        restoreSolution: ${{parameters.Solution}}
-      displayName: 'Get Nugget Packages'
-
-    - task: VSBuild@1
-      inputs:
-        solution: ${{parameters.Solution}}
-        msbuildArgs: '/p:DeployOnBuild=${{parameters.DeployOnBuild}} /p:WebPublishMethod=${{parameters.WebPublishMethod}} /p:PackageAsSingleFile=${{parameters.PackageAsSingleFile}} /p:SkipInvalidConfigurations=${{parameters.SkipInvalidConfigurations}} /p:PackageLocation="${{parameters.PackageLocation}}"'
-        platform: '${{parameters.BuildPlatform}}'
-        configuration: '${{parameters.BuildConfiguration}}'
-      display: 'Build solution'
+  - task: VSBuild@1
+    inputs:
+      solution: ${{parameters.Solution}}
+      msbuildArgs: '/p:DeployOnBuild=${{parameters.DeployOnBuild}} /p:WebPublishMethod=${{parameters.WebPublishMethod}} /p:PackageAsSingleFile=${{parameters.PackageAsSingleFile}} /p:SkipInvalidConfigurations=${{parameters.SkipInvalidConfigurations}} /p:PackageLocation="${{parameters.PackageLocation}}"'
+      platform: '${{parameters.BuildPlatform}}'
+      configuration: '${{parameters.BuildConfiguration}}'
+    display: 'Build solution'
