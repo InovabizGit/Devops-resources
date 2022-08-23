@@ -13,6 +13,6 @@ steps:
 
   - script: |
        npm install -g @angular/cli@${{ parameters.AngularVersion }}
-         npm install -f
+         npm install
          ng build --configuration=${{ parameters.EnvironmentConfig }}
     displayName: 'Prepare binaries'
