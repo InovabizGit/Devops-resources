@@ -1,18 +1,19 @@
-parameters:
-  - name: EnvironmentConfig
-    type: string
-  - name: AngularVersion
-    type: string
-  - name: NodeVersion
-    type: string    
-steps:
-  - task: NodeTool@0
-    inputs:
-      versionSpec: ${{ parameters.NodeVersion }}
-    displayName: 'Install Node.js'
-
-  - script: |
-       npm install -g @angular/cli@${{ parameters.AngularVersion }}
-         npm install
-         ng build --configuration=${{ parameters.EnvironmentConfig }}
-    displayName: 'Prepare binaries'
+inputs:
+  EnvironmentConfig:
+    required: true
+  AngularVersion:
+    required: true
+  NodeVersion:
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-node@v3
+      name: 'Provisioning Node ${{ inputs.NodeVersion }}'
+      with:
+        node-version: ${{ inputs.NodeVersion }}
+    - run: |
+        npm install -g @angular/cli@${{ inputs.AngularVersion }}
+        npm install
+        ng build --configuration=${{ inputs.EnvironmentConfig }}
+      name: 'Prepare binaries'
