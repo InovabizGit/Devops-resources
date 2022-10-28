@@ -1,0 +1,21 @@
+
+name: 'Create generic artifact'
+description: 'Create an save build files to a generic .zip artifact'
+
+inputs:
+  ArtifactFolderName:
+    description: ''
+    required: true
+  BuildFolder:
+    description: ''
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Archive files
+      uses: actions/upload-artifact@v3
+      with:
+        name: drop
+        path: |
+          ${{GITHUB_ACTION_PATH}}/${{inputs.BuildFolder}}
