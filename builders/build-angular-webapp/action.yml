@@ -23,7 +23,6 @@ runs:
       run: |
         pwd
         ls -ltra
-        cd ..
         npm install -g @angular/cli@${{ inputs.AngularVersion }}
         npm install
         ng build --configuration=${{ inputs.EnvironmentConfig }}
