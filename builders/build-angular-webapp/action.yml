@@ -21,6 +21,8 @@ runs:
     - name: 'Prepare binaries'
       shell: bash
       run: |
+        pwd
+        ls -ltra
         npm install -g @angular/cli@${{ inputs.AngularVersion }}
         npm install
         ng build --configuration=${{ inputs.EnvironmentConfig }}
