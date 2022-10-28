@@ -1,9 +1,15 @@
+
+name: 'Build angular webapp'
+description: 'Build angular webapp'
 inputs:
   EnvironmentConfig:
+    description: 'Environment to build'
     required: true
   AngularVersion:
+    description: 'Angular version'
     required: true
   NodeVersion:
+    description: 'Node version'
     required: true
 runs:
   using: "composite"
@@ -12,8 +18,9 @@ runs:
       name: 'Provisioning Node ${{ inputs.NodeVersion }}'
       with:
         node-version: ${{ inputs.NodeVersion }}
-    - run: |
+    - name: 'Prepare binaries'
+      shell: bash
+      run: |
         npm install -g @angular/cli@${{ inputs.AngularVersion }}
         npm install
         ng build --configuration=${{ inputs.EnvironmentConfig }}
-      name: 'Prepare binaries'
